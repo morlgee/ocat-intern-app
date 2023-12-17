@@ -1,9 +1,11 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Reactforms } from './components/Reactforms';
 import { SiteWrapper } from './components';
 import { DashboardBulletin } from './pages/Dashboard/DashboardBulletin';
 import { NewAssessment } from './pages/Assessments/NewAssessment.jsx';
-import { AssessmentList } from './pages/Assessments/AssessmentList';
+import { AssessmentList2 } from './pages/Assessments/AssessmentNew.jsx';
+// import { AssessmentList } from './pages/Assessments/AssessmentList';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const router = createBrowserRouter([
@@ -14,6 +16,10 @@ const router = createBrowserRouter([
   {
     element: <NewAssessment />,
     path: `/assessment/new`,
+  },
+  {
+    element: <AssessmentList2 />,
+    path: `/assessment/AssessmentNew`,
   },
 
 ]);

@@ -11,6 +11,7 @@ require(`./database`);
 
 const app = express();
 
+
 app.use(
   cors({ origin: `*` }),
   helmet(),
