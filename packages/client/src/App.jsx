@@ -17,8 +17,12 @@ const router = createBrowserRouter([
     element: <NewAssessment />,
     path: `/assessment/new`,
   },
+  // {
+  //  element: <AssessmentNew />,
+  //  path: `/assessment/AssessmentNew`,
+  // },
   {
-    element: <AssessmentNew />,
+    element: <Reactforms />,
     path: `/assessment/AssessmentNew`,
   },
 

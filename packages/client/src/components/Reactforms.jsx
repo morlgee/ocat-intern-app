@@ -1,3 +1,4 @@
+import React from 'react';
 import { useForm } from 'react-hook-form';
 
 export function Reactforms() {
@@ -8,9 +9,7 @@ export function Reactforms() {
   } = useForm();
 
   return (
-    <form onSubmit={handleSubmit((data) => {
-      // Handle form submission here
-    })}>
+    <form onSubmit={handleSubmit((data) => console.log(data))}>
       <input {...register(`firstName`)} />
       <input {...register(`lastName`, { required: true })} />
       {errors.lastName && <p>Last name is required.</p>}
