@@ -4,7 +4,7 @@ import { Reactforms } from './components/Reactforms';
 import { SiteWrapper } from './components';
 import { DashboardBulletin } from './pages/Dashboard/DashboardBulletin';
 import { NewAssessment } from './pages/Assessments/NewAssessment.jsx';
-import { AssessmentList2 } from './pages/Assessments/AssessmentNew.jsx';
+import { AssessmentNew } from './pages/Assessments/AssessmentNew.jsx';
 // import { AssessmentList } from './pages/Assessments/AssessmentList';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     path: `/assessment/new`,
   },
   {
-    element: <AssessmentList2 />,
+    element: <AssessmentNew />,
     path: `/assessment/AssessmentNew`,
   },
 
