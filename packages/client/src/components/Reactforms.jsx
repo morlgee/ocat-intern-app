@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { AssessmentService } from '../services/AssessmentService';
 
 export function Reactforms() {
   const {
@@ -9,13 +10,8 @@ export function Reactforms() {
   } = useForm();
 
   return (
-    <form onSubmit={handleSubmit((data) => console.log(data))}>
-      <input {...register(`firstName`)} />
-      <input {...register(`lastName`, { required: true })} />
-      {errors.lastName && <p>Last name is required.</p>}
-      <input {...register(`age`, { pattern: /\d+/ })} />
-      {errors.age && <p>Please enter number for age.</p>}
-      <h1>  Previous contact with the Cat Judicial System </h1>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <h1> Cat Assessment Form </h1>
       <ul>
         <li> The description goes here</li>
       </ul>
@@ -29,9 +25,9 @@ export function Reactforms() {
         <li> Previous contact with the Cat Judicial System</li>
         <div>
           <ul>
-            <input type="radio" {...register(`altercationsWithOwner`, { value: `0` })} />
+            <input type="radio" {...register(`previousContactWithJudSystem`, { value: 0 })} />
             <label htmlFor="firstName">No</label><br />
-            <input type="radio" {...register(`altercationsWithOwner`, { value: `1` })} />
+            <input type="radio" {...register(`previousContactWithJudSystem`, { value: 1 })} />
             <label htmlFor="firstName">Yes</label>
           </ul>
         </div>
@@ -40,9 +36,9 @@ export function Reactforms() {
         <li> Physical altercations with other cats</li>
         <div>
           <ul>
-            <input type="radio" {...register(`altercationsWithOwner`, { value: `0` })} />
+            <input type="radio" {...register(`altercationsWithOtherCat`, { value: 0 })} />
             <label htmlFor="firstName">0-3 altercations</label><br />
-            <input type="radio" {...register(`altercationsWithOwner`, { value: `1` })} />
+            <input type="radio" {...register(`altercationsWithOtherCat`, { value: 1 })} />
             <label htmlFor="firstName">3+ altercations</label>
           </ul>
         </div>
@@ -51,9 +47,9 @@ export function Reactforms() {
         <li> Physical altercations with owner (scratching, biting, etc...)</li>
         <div>
           <ul>
-            <input type="radio" {...register(`altercationsWithOwner`, { value: `1` })} />
+            <input type="radio" {...register(`altercationsWithOwner`, { value: 1 })} />
             <label htmlFor="firstName">10+ altercations</label><br />
-            <input type="radio" {...register(`altercationsWithOwner`, { value: `0` })} />
+            <input type="radio" {...register(`altercationsWithOwner`, { value: 0 })} />
             <label htmlFor="firstName">0-10 altercations</label>
           </ul>
         </div>
@@ -62,10 +58,10 @@ export function Reactforms() {
         <li> Plays well with dogs</li>
         <div>
           <ul>
-            <input type="radio" {...register(`altercationsWithOwner`, { value: `1` })} />
-            <label htmlFor="firstName">No</label><br />
-            <input type="radio" {...register(`altercationsWithOwner`, { value: `0` })} />
-            <label htmlFor="firstName">Yes</label>
+            <input type="radio" {...register(`playsWithDogs`, { value: 1 })} />
+            <label htmlFor="altercationsWithOwner">No</label><br />
+            <input type="radio" {...register(`playsWithDogs`, { value: 0 })} />
+            <label htmlFor="altercationsWithOwner">Yes</label>
           </ul>
         </div>
       </ol>
@@ -73,9 +69,9 @@ export function Reactforms() {
         <li> Hisses at strangers</li>
         <div>
           <ul>
-            <input type="radio" {...register(`altercationsWithOwner`, { value: `1` })} />
+            <input type="radio" {...register(`hissesAtStrangers`, { value: 1 })} />
             <label htmlFor="firstName">Yes</label><br />
-            <input type="radio" {...register(`altercationsWithOwner`, { value: `0` })} />
+            <input type="radio" {...register(`hissesAtStrangers`, { value: `0` })} />
             <label htmlFor="firstName">No</label>
           </ul>
         </div>
@@ -85,3 +81,35 @@ export function Reactforms() {
     </form>
   );
 }
+const onSubmit = async (data) => {
+  // Calculate scores based on responses
+  console.log(`access on submit`);
+  data.score = calculateScore(data);
+  data.riskLevel = calculateRisk(data.score);
+  await AssessmentService.submit({ assessment: data });
+  // Additional logic after submitting the form
+};
+const calculateScore = (formData) => {
+
+  console.log(`access calculate score`);
+  let score = 0;
+  score += formData.previousContactWithJudSystem.value;
+  score += formData.altercationsWithOtherCat.value;
+  score += formData.altercationsWithOwner.value;
+  score += formData.playsWithDogs.value;
+  score += formData.hissesAtStrangers.value;
+  console.log(formData.playsWithDogs.value);
+  return score;
+};
+const calculateRisk = (score) => {
+  let riskLevel = `low`;
+
+  if (score >= 0 && score <= 2) {
+    riskLevel = `low`;
+  } else if (score >= 3 && score <= 4) {
+    riskLevel = `medium`;
+  } else if (score >= 5 && score <= 6) {
+    score = `high`;
+  }
+  return riskLevel;
+};
